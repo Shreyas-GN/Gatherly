@@ -1,0 +1,12 @@
+.env
+.env.local
+__pycache__/
+*.pyc
+*.zip
+*_package/
+node_modules/
+.next/
+.vercel/
+venv/
+.idx/
+.DS_Store
