@@ -1,0 +1,71 @@
+{
+  "name": "Gatherly — Send Reminders",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "send-reminders",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "a4f9c6c9-4fd7-449f-b966-e8b12688a47f",
+      "name": "Webhook",
+      "webhookId": "246febaa-75e1-4830-abe0-46c3ee84003b"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.body.email }}",
+        "subject": "=⏰ Reminder — {{ $json.body.event_name }}",
+        "message": "=<div style=\"font-family:Arial,sans-serif;max-width:500px;margin:0 auto;padding:20px;\">   <h2>Hi {{ $json.body.name }}!</h2>   <p>This is your reminder for:</p>   <div style=\"background:#f3f4f6;border-radius:8px;padding:16px;margin:16px 0;\">     <h3>{{ $json.body.event_name }}</h3>     <p>📅 {{ $json.body.event_date }} at {{ $json.body.event_time }}</p>     <p>📍 {{ $json.body.event_location }}</p>   </div>   <p>Please make sure you are prepared!</p>   <p style=\"color:#9ca3af;font-size:12px;\">Powered by Gatherly</p> </div>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "3065a163-c82c-4f67-b3f3-829df2e2072c",
+      "name": "Send a message",
+      "webhookId": "3135297e-4039-4272-9ec6-7894a9f61d66",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "jzS7J1nlkQtHtA0n",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "e691c7b2-9048-42ba-bc74-095fa17b8f1d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "256e842675053b7e28b425e3d7eb019e4750224bc2bcbccd5381c84edb37577a"
+  },
+  "id": "U8JWtj1dBhfJUitX",
+  "tags": []
+}

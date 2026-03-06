@@ -1,0 +1,71 @@
+{
+  "name": "Gatherly — Confirmation Receipt",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "handle-confirmation",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "2ed3d731-607b-4ab9-b2db-73ac7d8082a3",
+      "name": "Webhook",
+      "webhookId": "ed24987e-4349-41a7-a792-6d662f6998bc"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.body.volunteer_email }}",
+        "subject": "=✅ Confirmed — {{ $json.body.event_name }}",
+        "message": "=<div style=\"font-family:Arial,sans-serif;max-width:500px;margin:0 auto;padding:20px;\">\n  <h2 style=\"color:#111827;\">✅ You are confirmed!</h2>\n  <p style=\"color:#4b5563;\">Hi {{ $json.body.volunteer_name }},</p>\n  <p style=\"color:#4b5563;\">Your volunteering spot is confirmed for:</p>\n  <div style=\"background:#f3f4f6;border-radius:8px;padding:16px;margin:16px 0;\">\n    <h3 style=\"margin:0 0 8px 0;color:#111827;\">{{ $json.body.event_name }}</h3>\n    <p style=\"margin:4px 0;color:#6b7280;\">📅 {{ $json.body.event_date }} at {{ $json.body.event_time }}</p>\n    <p style=\"margin:4px 0;color:#6b7280;\">📍 {{ $json.body.event_location }}</p>\n  </div>\n  <p style=\"color:#4b5563;\">Thank you for volunteering! See you there 🎉</p>\n  <p style=\"color:#9ca3af;font-size:12px;margin-top:24px;\">Powered by Gatherly</p>\n</div>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "1ce5347e-1e1b-4234-8898-3c2039176c74",
+      "name": "Send a message",
+      "webhookId": "e7e3ab9d-1621-4476-8b4b-009e62cbb7a9",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "jzS7J1nlkQtHtA0n",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "5416ea24-3617-4af2-be40-d064fe53f779",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "256e842675053b7e28b425e3d7eb019e4750224bc2bcbccd5381c84edb37577a"
+  },
+  "id": "Qnfj3kaQ9qJn1WON",
+  "tags": []
+}

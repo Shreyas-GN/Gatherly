@@ -1,0 +1,99 @@
+{
+  "name": "Gatherly — Send Invitations",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "send-invitations",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "afeeee1d-50c6-43bf-a2f0-c11ee728b571",
+      "name": "Webhook",
+      "webhookId": "92b4b3f5-8319-4d64-aaaf-c597aea5365b"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get raw input\nconst input = $input.first().json;\n\n// Try to get data from different places\nlet matched_volunteers = [];\nlet event = {};\n\n// Check if data is in body string\nif (input.body && typeof input.body === 'string') {\n  try {\n    const parsed = JSON.parse(input.body);\n    matched_volunteers = parsed.matched_volunteers || [];\n    event = parsed.event || {};\n  } catch(e) {}\n}\n\n// Check if data is directly in input\nif (matched_volunteers.length === 0 && input.matched_volunteers) {\n  matched_volunteers = input.matched_volunteers || [];\n  event = input.event || {};\n}\n\n// Check if data is in nested body object\nif (matched_volunteers.length === 0 && input.body && typeof input.body === 'object') {\n  matched_volunteers = input.body.matched_volunteers || [];\n  event = input.body.event || {};\n}\n\n// Return hardcoded test if still empty (for debugging)\nif (matched_volunteers.length === 0) {\n  return [{\n    json: {\n      debug: true,\n      raw_input: JSON.stringify(input).substring(0, 500),\n      volunteer_name: 'Test Volunteer',\n      volunteer_email: 'shreyasgn11@outlook.com',\n      volunteer_id: 'VOL_TEST',\n      event_id: 'EVT_TEST',\n      event_name: 'Test Event',\n      event_date: '2026-03-20',\n      event_time: '09:00',\n      event_location: 'BIT Bengaluru',\n      slots_total: 5\n    }\n  }];\n}\n\n// Return real volunteer data\nreturn matched_volunteers.map(v => ({\n  json: {\n    volunteer_name: v.name,\n    volunteer_email: v.email,\n    volunteer_id: v.volunteer_id,\n    event_id: event.event_id,\n    event_name: event.name,\n    event_date: event.date,\n    event_time: event.time,\n    event_location: event.location,\n    slots_total: event.slots_total\n  }\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "a657a6a4-d902-454f-80f3-5744cbd4193b",
+      "name": "Code in JavaScript",
+      "alwaysOutputData": false,
+      "executeOnce": false,
+      "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.volunteer_email }}",
+        "subject": "=🙋 Volunteer Needed — {{ $json.event_name }}",
+        "message": "=<div style=\"font-family: Arial, sans-serif; max-width: 500px; margin: 0 auto; padding: 20px;\">\n    <h2 style=\"color: #111827;\">Hi {{ $json.volunteer_name }}!</h2>\n    <p style=\"color: #4b5563;\">You are invited to volunteer for:</p>\n\n    <div style=\"background: #f3f4f6; border-radius: 8px; padding: 16px; margin: 16px 0;\">\n        <h3 style=\"margin: 0 0 8px 0; color: #111827;\">{{ $json.event_name }}</h3>\n        <p style=\"margin: 4px 0; color: #6b7280;\">📅 Date: {{ $json.event_date }}</p>\n        <p style=\"margin: 4px 0; color: #6b7280;\">⏰ Time: {{ $json.event_time }}</p>\n        <p style=\"margin: 4px 0; color: #6b7280;\">📍 Location: {{ $json.event_location }}</p>\n        <p style=\"margin: 4px 0; color: #6b7280;\">👥 Slots needed: {{ $json.slots_total }}</p>\n    </div>\n\n    <p style=\"color: #4b5563;\">Will you volunteer?</p>\n\n    <div style=\"margin: 24px 0;\">\n        <a href=\"https://8k84j57fk0.execute-api.ap-south-1.amazonaws.com/prod/confirm?v={{ $json.volunteer_id }}&e={{ $json.event_id }}&r=CONFIRMED\"\n            style=\"background: #22c55e; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; margin-right: 12px;\">\n            ✅ YES, I will volunteer\n        </a>\n        &nbsp;&nbsp;\n        <a href=\"https://8k84j57fk0.execute-api.ap-south-1.amazonaws.com/prod/confirm?v={{ $json.volunteer_id }}&e={{ $json.event_id }}&r=DECLINED\"\n            style=\"background: #ef4444; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px;\">\n            ❌ Cannot make it\n        </a>\n    </div>\n\n    <p style=\"color: #9ca3af; font-size: 12px; margin-top: 24px;\">Powered by Gatherly</p>\n</div>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        432,
+        0
+      ],
+      "id": "a35b6e00-5ac4-47f0-94c9-bbc363fa1ddc",
+      "name": "Send a message",
+      "webhookId": "44f8ce34-a359-4095-abe2-a4a01ef5ddb2",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "jzS7J1nlkQtHtA0n",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "89c9d351-7825-4e1a-b577-fb87f684c7ae",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "256e842675053b7e28b425e3d7eb019e4750224bc2bcbccd5381c84edb37577a"
+  },
+  "id": "021aB40PzbIAwl6N",
+  "tags": []
+}

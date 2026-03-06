@@ -1,0 +1,71 @@
+{
+  "name": "Gatherly — Slots Full Alert",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "slots-full",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "9ba99335-6a8d-43a5-bcc6-8596e93aa2e5",
+      "name": "Webhook",
+      "webhookId": "82c2c262-3c18-4a07-8861-6e0631e49a4e"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.body.event.organiser_email }}",
+        "subject": "= Subject: ✅ All slots filled — {{ $json.event.name }}",
+        "message": "=<div style=\"font-family:Arial,sans-serif;max-width:500px;margin:0 auto;padding:20px;\">\n  <h2 style=\"color:#111827;\">🎉 All slots filled!</h2>\n  <p style=\"color:#4b5563;\">Great news! All volunteer slots have been filled.</p>\n  <div style=\"background:#f3f4f6;border-radius:8px;padding:16px;margin:16px 0;\">\n    <h3 style=\"margin:0 0 8px 0;color:#111827;\">{{ $json.body.event.name }}</h3>\n    <p style=\"margin:4px 0;color:#6b7280;\">📅 {{ $json.body.event.date }} at {{ $json.body.event.time }}</p>\n    <p style=\"margin:4px 0;color:#6b7280;\">📍 {{ $json.body.event.location }}</p>\n    <p style=\"margin:4px 0;color:#6b7280;\">👥 {{ $json.body.event.slots_total }} volunteers confirmed</p>\n  </div>\n  <p style=\"color:#4b5563;\">Your event is all set! 🚀</p>\n  <p style=\"color:#9ca3af;font-size:12px;margin-top:24px;\">Powered by Gatherly</p>\n</div>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "f6137fd5-6284-4f79-81e6-c4eac460b925",
+      "name": "Send a message",
+      "webhookId": "c60e2217-132e-4156-b6ed-513267579887",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "jzS7J1nlkQtHtA0n",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "6fe84a06-eb72-456e-97cc-8679427dcff0",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "256e842675053b7e28b425e3d7eb019e4750224bc2bcbccd5381c84edb37577a"
+  },
+  "id": "HV0qhWvjEzHKbCkL",
+  "tags": []
+}
