@@ -72,7 +72,7 @@ export default function CreateEvent() {
 
             setSuccess('Event created successfully! Invitations have been sent.');
             setTimeout(() => {
-                router.push('/');
+                router.push('/dashboard');
             }, 2000);
 
         } catch (err: any) {
@@ -86,7 +86,7 @@ export default function CreateEvent() {
         <div className="space-y-6 animate-in fade-in duration-500 pb-12">
             <div className="flex items-center gap-4">
                 <Link
-                    href="/"
+                    href="/dashboard"
                     className="p-2 hover:bg-gray-100 rounded-lg text-gray-500 hover:text-gray-900 transition-colors"
                 >
                     <ArrowLeft size={20} />

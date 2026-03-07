@@ -18,12 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} min-h-screen bg-[#F9FAFB] text-[#111827] antialiased`}>
-        <Sidebar />
-        <main className="pl-64 min-h-screen">
-          <div className="p-8 max-w-6xl mx-auto">
-            {children}
-          </div>
-        </main>
+        {children}
       </body>
     </html>
   );

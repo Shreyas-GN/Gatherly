@@ -8,7 +8,7 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   const navItems = [
-    { name: 'Overview', href: '/', icon: Home },
+    { name: 'Overview', href: '/dashboard', icon: Home },
     { name: 'Events', href: '/events', icon: Calendar },
     { name: 'Volunteers', href: '/volunteers', icon: Users },
     { name: 'Settings', href: '/settings', icon: Settings },
@@ -28,14 +28,14 @@ export default function Sidebar() {
       <nav className="flex-1 px-4 space-y-1">
         {navItems.map((item) => {
           const Icon = item.icon;
-          const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
+          const isActive = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href));
           return (
             <Link
               key={item.name}
               href={item.href}
               className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${isActive
-                  ? 'bg-orange-50 text-orange-500'
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                ? 'bg-orange-50 text-orange-500'
+                : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
                 }`}
             >
               <Icon size={18} />
