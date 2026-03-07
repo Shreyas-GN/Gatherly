@@ -174,10 +174,10 @@ export default function VolunteersPage() {
                                 <input required type="email" className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none" placeholder="jane@example.com" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} />
                             </div>
                             <div>
-                                <label className="text-xs font-medium text-gray-700 mb-2 block">Top Skills</label>
-                                <div className="space-y-2 bg-white p-3 border border-gray-200 rounded-lg">
-                                    {ALL_SKILLS.slice(0, 3).map(skill => (
-                                        <label key={skill} className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+                                <label className="text-xs font-medium text-gray-700 mb-2 block">Skills</label>
+                                <div className="space-y-2 bg-white p-3 border border-gray-200 rounded-lg max-h-48 overflow-y-auto">
+                                    {ALL_SKILLS.map(skill => (
+                                        <label key={skill} className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-50 p-1 rounded transition-colors">
                                             <input
                                                 type="checkbox"
                                                 className="form-checkbox h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-300 rounded"
