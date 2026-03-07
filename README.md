@@ -1,7 +1,9 @@
 <div align="center">
   <h1>Gatherly</h1>
   <p><strong>A cloud-native volunteer management and event coordination platform.</strong></p>
+  <img src="docs/screenshots/landing-page.png" alt="Gatherly Landing Page" width="800" />
   
+  <br /><br />
   <p>
     <a href="#overview">Overview</a> •
     <a href="#core-features">Core Features</a> •
