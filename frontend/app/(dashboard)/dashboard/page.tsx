@@ -14,8 +14,11 @@ export default function Dashboard() {
       try {
         const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-        // Fetch events
-        const resEvents = await fetch(`${apiUrl}/events`);
+        // Fetch events with Edge Caching & SSG revalidation
+        const resEvents = await fetch(`${apiUrl}/events`, { 
+          cache: 'force-cache',
+          next: { revalidate: 60 }
+        });
         if (resEvents.ok) {
           const dataE = await resEvents.json();
           const dummyIds = new Set([
@@ -32,8 +35,11 @@ export default function Dashboard() {
           setEvents(pureEvents);
         }
 
-        // Fetch volunteers
-        const resVols = await fetch(`${apiUrl}/volunteers`);
+        // Fetch volunteers with Edge Caching
+        const resVols = await fetch(`${apiUrl}/volunteers`, {
+          cache: 'force-cache',
+          next: { revalidate: 60 }
+        });
         if (resVols.ok) {
           const dataV = await resVols.json();
           setVolunteers(dataV.volunteers || []);

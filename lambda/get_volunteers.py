@@ -49,7 +49,8 @@ def build_response(status_code, body):
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Headers': 'Content-Type',
-            'Access-Control-Allow-Methods': 'GET,POST,OPTIONS'
+            'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
+            'Cache-Control': 'public, max-age=120, s-maxage=300'
         },
         'body': json.dumps(body)
     }
