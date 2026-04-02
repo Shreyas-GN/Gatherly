@@ -1,13 +1,28 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Inter, Space_Grotesk } from 'next/font/google';
 import './globals.css';
-import Sidebar from '@/components/Sidebar';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-space',
+  display: 'swap',
+  weight: ['400', '500', '700'],
+});
 
 export const metadata: Metadata = {
-  title: 'Gatherly - Bring the right people together',
-  description: 'Community focused event and volunteer management.',
+  title: 'Gatherly — Stop emailing spreadsheets to strangers',
+  description: 'Gatherly matches volunteers to events by skill, sends the invites, tracks the RSVPs, and tells you when you\'re full. You just show up.',
+  openGraph: {
+    title: 'Gatherly',
+    description: 'Volunteer coordination that actually works.',
+    type: 'website',
+  },
 };
 
 export default function RootLayout({
@@ -16,8 +31,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} min-h-screen bg-[#F9FAFB] text-[#111827] antialiased`}>
+    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
+      <body
+        className="min-h-screen antialiased"
+        style={{ fontFamily: 'var(--font-inter), sans-serif' }}
+      >
         {children}
       </body>
     </html>
