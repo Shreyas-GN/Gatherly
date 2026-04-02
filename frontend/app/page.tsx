@@ -205,148 +205,6 @@ export default function LandingPage() {
       {/* ── HOW IT WORKS — ARCHITECTURAL ─────────────── */}
       <ArchitecturalSteps />
 
-      {/* ── SUNDAYS RECLAIMED ─────────────────────── */}
-      <section
-        id="why"
-        style={{ background: '#0F172A', padding: '6rem 1.5rem' }}
-      >
-        <div style={{ maxWidth: '72rem', margin: '0 auto' }}>
-          <div className="flex flex-col lg:flex-row gap-16 items-start">
-
-            {/* Left — Before / After contrast */}
-            <div className="flex-1">
-              {/* BEFORE */}
-              <div
-                style={{
-                  borderLeft: '2px solid rgba(194,73,29,0.3)',
-                  paddingLeft: '1.5rem',
-                  marginBottom: '2.5rem',
-                }}
-              >
-                <p
-                  style={{
-                    fontFamily: 'var(--font-space), sans-serif',
-                    fontSize: '0.6rem',
-                    fontWeight: 600,
-                    letterSpacing: '0.18em',
-                    textTransform: 'uppercase',
-                    color: '#8A837A',
-                    marginBottom: '0.75rem',
-                  }}
-                >
-                  Before Gatherly
-                </p>
-                <p
-                  style={{
-                    fontFamily: 'var(--font-space), sans-serif',
-                    fontSize: 'clamp(1.6rem, 3vw, 2.2rem)',
-                    fontWeight: 700,
-                    color: '#8A837A',
-                    letterSpacing: '-0.02em',
-                    lineHeight: 1.1,
-                    textDecoration: 'line-through',
-                    textDecorationColor: 'rgba(194,73,29,0.4)',
-                  }}
-                >
-                  3 hours of BCC emails,&nbsp;
-                  <br />WhatsApp ping-pong,&nbsp;
-                  <br />and a spreadsheet
-                  <br />that&rsquo;s already wrong.
-                </p>
-              </div>
-
-              {/* AFTER */}
-              <div
-                style={{
-                  borderLeft: '2px solid #C2491D',
-                  paddingLeft: '1.5rem',
-                }}
-              >
-                <p
-                  style={{
-                    fontFamily: 'var(--font-space), sans-serif',
-                    fontSize: '0.6rem',
-                    fontWeight: 600,
-                    letterSpacing: '0.18em',
-                    textTransform: 'uppercase',
-                    color: '#C2491D',
-                    marginBottom: '0.75rem',
-                  }}
-                >
-                  With Gatherly
-                </p>
-                <p
-                  style={{
-                    fontFamily: 'var(--font-space), sans-serif',
-                    fontSize: 'clamp(1.6rem, 3vw, 2.2rem)',
-                    fontWeight: 700,
-                    color: '#F5F0EB',
-                    letterSpacing: '-0.02em',
-                    lineHeight: 1.1,
-                  }}
-                >
-                  2 minutes.
-                  <br />Set it. Forget it.
-                </p>
-              </div>
-            </div>
-
-            {/* Right — copy */}
-            <div className="lg:w-[44%] flex-shrink-0 pt-2">
-              <p
-                style={{
-                  fontFamily: 'var(--font-space), sans-serif',
-                  fontSize: '0.6rem',
-                  fontWeight: 600,
-                  letterSpacing: '0.18em',
-                  textTransform: 'uppercase',
-                  color: '#C2491D',
-                  marginBottom: '1.25rem',
-                }}
-              >
-                Your Sundays, reclaimed.
-              </p>
-              <h2
-                style={{
-                  fontFamily: 'var(--font-space), sans-serif',
-                  fontSize: 'clamp(1.8rem, 3vw, 2.4rem)',
-                  fontWeight: 700,
-                  color: '#F5F0EB',
-                  letterSpacing: '-0.03em',
-                  lineHeight: 1.1,
-                  marginBottom: '1.5rem',
-                }}
-              >
-                Organising shouldn&rsquo;t be a second full-time job.
-              </h2>
-              <p
-                style={{
-                  color: '#8A837A',
-                  lineHeight: 1.8,
-                  fontSize: '1rem',
-                  marginBottom: '1.5rem',
-                }}
-              >
-                Most community managers spend their nights drowning in BCC emails and Google Sheets.
-                Gatherly handles the busywork — matching volunteers by skill, dispatching invites, and
-                tracking RSVPs — so you can actually enjoy your community again.
-              </p>
-              <p style={{ color: '#8A837A', lineHeight: 1.8, fontSize: '1rem' }}>
-                There&rsquo;s no reason great communities should collapse because one coordinator
-                burned out. Gatherly makes sure they don&rsquo;t.
-              </p>
-              <Link
-                href="/dashboard"
-                className="btn-primary"
-                style={{ display: 'inline-flex', marginTop: '2rem' }}
-              >
-                Reclaim your time →
-              </Link>
-            </div>
-
-          </div>
-        </div>
-      </section>
 
       {/* ── BUILDER NOTE ────────────────────────────── */}
       <section id="story" className="py-32 px-6">
@@ -373,7 +231,7 @@ export default function LandingPage() {
               letterSpacing: '-0.01em',
             }}
           >
-            A note from the builder
+            A quick note from me
           </p>
 
           <div
@@ -387,35 +245,22 @@ export default function LandingPage() {
             }}
           >
             <p>
-              The sustainability of community organisation shouldn&rsquo;t depend on how many hours
-              a week a coordinator can sacrifice to a spreadsheet.
+              Running a community shouldn&rsquo;t feel like managing a spreadsheet full-time.
             </p>
             <p>
-              I&rsquo;ve watched too many great people — dedicated, passionate, genuinely good
-              organisers — quit because the coordination work never stopped. They didn&rsquo;t burn out
-              on the community. They burned out on the admin.
+              But that&rsquo;s exactly what happens. Most organisers don&rsquo;t burn out because of the people — they burn out because of the constant coordination work behind the scenes.
             </p>
             <p style={{ color: '#8A837A' }}>
-              Coordination fatigue is real. And it&rsquo;s the single biggest reason strong
-              volunteer programmes fall apart.
+              Tracking volunteers, managing schedules, updating sheets&hellip; it never really stops.
             </p>
             <p>
-              Gatherly exists to stop that. Not as a university project, not as a
-              technical experiment — as a real product, built to solve a real problem. It handles
-              the busywork so that the people who care about their communities can focus on
-              what actually matters.
+              That&rsquo;s the problem Gatherly solves. It takes care of the repetitive admin work so you don&rsquo;t have to. No more messy spreadsheets. No more chasing updates. No more wasting hours on coordination.
             </p>
             <p>
-              If you&rsquo;re still using spreadsheets to coordinate people,{' '}
-              <span
-                style={{
-                  fontWeight: 600,
-                  color: '#C2491D',
-                }}
-              >
-                stop.
-              </span>{' '}
-              Use this instead.
+              You can focus on your community — not the busywork.
+            </p>
+            <p>
+              If you&rsquo;re still using spreadsheets to manage people, there&rsquo;s a better way.
             </p>
           </div>
 
@@ -428,7 +273,7 @@ export default function LandingPage() {
               color: '#1A1612',
             }}
           >
-            — Shreyas
+            — Shreyas Hegde
           </p>
         </div>
       </section>

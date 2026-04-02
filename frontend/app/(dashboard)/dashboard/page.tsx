@@ -262,7 +262,7 @@ function VolunteerBar({ vol, maxEvents, index }: { vol: any; maxEvents: number; 
       {/* Name + bar */}
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.3rem' }}>
-          <span style={{ fontSize: '0.78rem', fontWeight: 500, color: T.text, truncate: true as any }}>{vol.name}</span>
+          <span style={{ fontSize: '0.78rem', fontWeight: 500, color: T.text, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{vol.name}</span>
           <span style={{ fontSize: '0.7rem', color: T.muted, flexShrink: 0, marginLeft: '0.5rem' }}>{count} event{count !== 1 ? 's' : ''}</span>
         </div>
         <div style={{ height: 2, background: T.surfaceDeep, borderRadius: 99, overflow: 'hidden' }}>
@@ -304,18 +304,33 @@ export default function Dashboard() {
     async function fetchData() {
       try {
         const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-        const [resEvents, resVols] = await Promise.all([
-          fetch(`${apiUrl}/events`, { cache: 'force-cache', next: { revalidate: 60 } }),
-          fetch(`${apiUrl}/volunteers`, { cache: 'force-cache', next: { revalidate: 60 } }),
-        ]);
-        if (resEvents.ok) {
-          const dataE = await resEvents.json();
-          const pureEvents = (dataE.events || []).filter((e: any) => !dummyIds.has(e.event_id));
-          setEvents(pureEvents);
+        if (!apiUrl) {
+          console.warn('NEXT_PUBLIC_API_URL is not defined. Using empty data.');
+          setLoading(false);
+          setDataLoaded(true);
+          return;
         }
-        if (resVols.ok) {
-          const dataV = await resVols.json();
-          setVolunteers(dataV.volunteers || []);
+
+        const [resEvents, resVols] = await Promise.all([
+          fetch(`${apiUrl}/events`, { cache: 'force-cache', next: { revalidate: 60 } }).catch(() => null),
+          fetch(`${apiUrl}/volunteers`, { cache: 'force-cache', next: { revalidate: 60 } }).catch(() => null),
+        ]);
+
+        if (resEvents && resEvents.ok) {
+          const contentType = resEvents.headers.get('content-type');
+          if (contentType && contentType.includes('application/json')) {
+            const dataE = await resEvents.json();
+            const pureEvents = (dataE.events || []).filter((e: any) => !dummyIds.has(e.event_id));
+            setEvents(pureEvents);
+          }
+        }
+
+        if (resVols && resVols.ok) {
+          const contentType = resVols.headers.get('content-type');
+          if (contentType && contentType.includes('application/json')) {
+            const dataV = await resVols.json();
+            setVolunteers(dataV.volunteers || []);
+          }
         }
       } catch (err) {
         console.error('Dashboard load failed:', err);
