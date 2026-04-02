@@ -303,14 +303,8 @@ export default function Dashboard() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-        if (!apiUrl) {
-          console.warn('NEXT_PUBLIC_API_URL is not defined. Using empty data.');
-          setLoading(false);
-          setDataLoaded(true);
-          return;
-        }
-
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || '/api/v1';
+        
         const [resEvents, resVols] = await Promise.all([
           fetch(`${apiUrl}/events`, { cache: 'force-cache', next: { revalidate: 60 } }).catch(() => null),
           fetch(`${apiUrl}/volunteers`, { cache: 'force-cache', next: { revalidate: 60 } }).catch(() => null),

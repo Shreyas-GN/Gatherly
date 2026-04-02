@@ -1,6 +1,6 @@
 <div align="center">
   <h1>Gatherly</h1>
-  <p><strong>A cloud-native volunteer management and event coordination platform.</strong></p>
+  <p><strong>A cloud-native, event-driven workflow automation platform for community coordination.</strong></p>
   <img src="docs/screenshots/landing-page.png" alt="Gatherly Landing Page" width="800" />
   
   <br /><br />
@@ -17,21 +17,21 @@
 
 ## Overview
 
-**Gatherly** is a production-ready web application engineered to streamline community event coordination. Built entirely on a robust Serverless architecture, Gatherly automates the complex logistics of matching volunteer competencies to specific event requirements, handling RSVP workflows, and dispatching timely notifications. 
+**Gatherly** is a production-ready workflow automation platform engineered to streamline community event coordination. Built entirely on an **Event-Driven Architecture (EDA)**, Gatherly uses trigger-based execution to automate the complex logistics of matching volunteer competencies to specific event requirements, handling RSVP workflows, and dispatching timely notifications. 
 
-The application dynamically interfaces with an S3 Data Lake to filter volunteer registries, ensuring optimal resource allocation for specialized events without requiring manual intervention from organizers.
+The platform leverages MongoDB for robust state management and integrates large language (LLM) APIs into its backend pipelines for intelligent decision-making and automated skill extraction.
 
 <br />
 
 ## Core Features
 
-- **Algorithm-Driven Skill Matching**: Instantly parses the volunteer database and cross-references registered competencies with newly provisioned event schemas.
-- **Asynchronous Workflow Automation**: Designed an asynchronous workflow automation engine leveraging n8n, efficiently orchestrating high-volume transactional workloads and handling concurrent notification dispatchs without bottlenecking core compute layers.
-- **Dynamic Auto-Scaling**: Engineered a highly resilient, event-driven serverless API using AWS API Gateway and Lambda capable of dynamically auto-scaling to process 5,000+ concurrent event registrations seamlessly.
-- **Real-Time State Validation**: Features a highly responsive Next.js frontend that visually tracks dynamic event statuses (Open vs. Filled) and aggregates confirmed headcounts in near real-time.
-- **Edge Caching & SSG**: Optimized Next.js frontend performance by implementing advanced edge caching strategies and static site generation (SSG), significantly reducing server load and ensuring sub-second page loads.
-- **Microservices-Based Serverless Backend**: Fully decoupled architecture utilizing AWS API Gateway and Lambda functions querying an Amazon S3 Data Lake. Includes a caching layer to decrease query latency for algorithm-driven skill matching.
-- **Resilient UI Implementation**: Incorporates comprehensive loading states, error boundaries, and graceful fallbacks for a zero-friction user experience.
+- **Algorithm-Driven Skill Matching**: Instantly orchestrates NoSQL queries against embedded and LLM-normalized taxonomy within MongoDB to match event needs with active volunteers.
+- **Trigger-Based Background Workflows**: Features asynchronous background processing pipelines using built-in AWS EventBridge and Node.js Lambdas, replacing monolithic synchronous API calls.
+- **Intelligent LLM Automation**: Integrated LLM APIs (OpenAI) perform dynamic extraction of free-text volunteer bios to construct standardized skill sets autonomously.
+- **Dynamic Auto-Scaling**: Engineered a highly resilient, event-driven serverless API using Python + AWS API Gateway capable of dynamically auto-scaling for high-throughput webhook ingestion without dropping events.
+- **Real-Time State Validation**: Features a highly responsive Next.js frontend that visually tracks dynamic event statuses (Open vs. Filled) and aggregates headcounts instantly based on NoSQL aggregates.
+- **Decoupled Datastore Integration**: Transitioned from blob-stores to Modeled MongoDB collections for efficient storage and sub-10ms transactional resolution of complex states.
+- **Resilient Architectures**: Implemented comprehensive logging, synchronous acknowledgements, and asynchronous fault-tolerance/retries across all microservices.
 
 <br />
 
@@ -41,19 +41,21 @@ Gatherly follows a modern decoupled architecture, enabling safe and performant c
 
 ```mermaid
 graph LR
-    A["Next.js App Router"] -->|"REST API"| B("AWS API Gateway")
-    B --> C{"AWS Lambda Functions"}
-    C -->|"GET / POST"| D[("Amazon S3 Data Lake")]
-    C -.->|"Webhooks"| E["n8n Workflow Automation"]
-    E -->|"SMTP / Transactional"| F(("Volunteers"))
-    F -->|"RSVP Action"| B
+    A["Next.js Application"] -->|"REST API"| B("AWS API Gateway")
+    B --> C{"Python API Lambdas"}
+    B --> LLM[("LLM / OpenAI API")]
+    C <-->|"CRUD"| D[("MongoDB Cluster")]
+    C -.->|"Trigger Events"| E["Event SQS Queue"]
+    E --> F{"Node.js Background Lambdas"}
+    F -->|"Async Ops"| D
+    F -->|"Notifications"| G(("Volunteers"))
 ```
 
 ### Request Lifecycle
-1. **Client Interaction**: Organizers construct events via the Next.js dashboard, dictating required capacities and target skillsets.
-2. **Compute Layer**: `create_event.py` executes on AWS Lambda, persisting the document into the S3 bucket while actively scanning the `volunteers/registry.json` for optimal candidate matches.
-3. **Event-Driven Execution**: External webhooks fire asynchronously, dispatching actionable HTML emails to the matched demographic via the n8n automation pipeline.
-4. **State Reconciliation**: Volunteer confirmation actions trigger secondary API endpoints to update internal S3 allocation limits, instantly reflecting capacity changes on the client dashboard.
+1. **Event Ingestion**: Organizers and volunteers submit payloads via the Next.js client to structured RESTful endpoints on API Gateway.
+2. **Synchronous Validation & LLM Pipeline**: Python lambdas parse the requests synchronously, leverage LLM APIs to standardize inputs, store them in MongoDB, and emit a background job trigger, returning a 2XX response immediately.
+3. **Trigger-Based Execution**: Background queues (EventBridge/SQS) safely invoke the Node.js worker lambdas for heavy processing and AI skill matching.
+4. **State Reconciliation**: Workflow executions directly mutate MongoDB document shapes asynchronously, instantly reflecting status changes in the frontend application via tracking endpoints.
 
 <br />
 
@@ -66,10 +68,12 @@ graph LR
 - **Language:** TypeScript
 
 ### Cloud Infrastructure
-- **Compute Services:** [AWS Lambda](https://aws.amazon.com/lambda/) (Python 3.10)
-- **API Management:** [AWS API Gateway](https://aws.amazon.com/api-gateway/)
-- **Object Storage:** [Amazon S3](https://aws.amazon.com/s3/) (JSON Document Store)
-- **Data Orchestration:** [n8n](https://n8n.io/)
+- **Compute Services:** AWS Lambda (Python 3.10 & Node.js 18)
+- **API Management:** AWS API Gateway
+- **Datastore:** MongoDB (Mongoose/PyMongo)
+- **AI Automation:** OpenAI LLM APIs
+- **Message Queues:** AWS SQS / EventBridge
+- **Execution Tracking:** Built-in decoupled fault-tolerant async workflows.
 
 <br />
 

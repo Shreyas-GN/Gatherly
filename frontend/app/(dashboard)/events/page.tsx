@@ -12,7 +12,7 @@ export default function EventsPage() {
     useEffect(() => {
         async function fetchEvents() {
             try {
-                const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+                const apiUrl = process.env.NEXT_PUBLIC_API_URL || '/api/v1';
                 const res = await fetch(`${apiUrl}/events`);
                 const data = await res.json();
 

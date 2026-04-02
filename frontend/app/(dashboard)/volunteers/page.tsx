@@ -20,7 +20,7 @@ export default function VolunteersPage() {
     const fetchVolunteers = async () => {
         try {
             setLoading(true);
-            const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || '/api/v1';
             const res = await fetch(`${apiUrl}/volunteers`);
             if (res.ok) {
                 const data = await res.json();
@@ -51,7 +51,7 @@ export default function VolunteersPage() {
         setRegistering(true);
         setMessage(null);
         try {
-            const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || '/api/v1';
             const res = await fetch(`${apiUrl}/volunteers`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -72,7 +72,8 @@ export default function VolunteersPage() {
     };
 
     const filteredVolunteers = volunteers.filter(v => {
-        const matchesSearch = v.name.toLowerCase().includes(searchTerm.toLowerCase()) || v.email.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesSearch = (v.name ?? '').toLowerCase().includes(searchTerm.toLowerCase()) || 
+                            (v.email ?? '').toLowerCase().includes(searchTerm.toLowerCase());
         const matchesSkill = filterSkill === 'All' || (v.skills || []).includes(filterSkill);
         return matchesSearch && matchesSkill;
     });
@@ -126,11 +127,11 @@ export default function VolunteersPage() {
                                     <div key={vol.volunteer_id} className="p-6 hover:bg-gray-50 transition-colors">
                                         <div className="flex items-start gap-4">
                                             <div className="w-12 h-12 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center font-bold text-lg shrink-0">
-                                                {vol.name.substring(0, 2).toUpperCase()}
+                                                {(vol.name ?? '??').substring(0, 2).toUpperCase()}
                                             </div>
                                             <div className="space-y-2 w-full">
                                                 <div className="flex justify-between items-start">
-                                                    <h3 className="text-lg font-semibold text-gray-900">{vol.name}</h3>
+                                                    <h3 className="text-lg font-semibold text-gray-900">{vol.name ?? 'Unnamed Volunteer'}</h3>
                                                     <span className={`text-xs font-semibold px-2 py-1 rounded ${vol.status === 'ACTIVE' ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-600'}`}>
                                                         {vol.status || 'ACTIVE'}
                                                     </span>

@@ -48,7 +48,7 @@ export default function CreateEvent() {
 
         try {
             // Add your lambda backend endpoint here via .env or hardcode for now
-            const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'YOUR_API_GATEWAY_URL';
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || '/api/v1';
 
             const payload = {
                 name: formData.name,
